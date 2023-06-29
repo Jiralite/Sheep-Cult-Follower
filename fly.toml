@@ -1,0 +1,9 @@
+# fly.toml app configuration file generated for sheep-cult-follower on 2023-06-29T20:21:00+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "sheep-cult-follower"
+primary_region = "lhr"
+kill_signal = "SIGINT"
+kill_timeout = "5s"

@@ -1,0 +1,26 @@
+{
+	"name": "@jiralite/sheep-cult-follower",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "tsc --noEmit",
+		"build": "tsup",
+		"format": "prettier --write . && eslint --fix .",
+		"lint": "prettier --check . && eslint .",
+		"start": "node --enable-source-maps --require dotenv/config dist/index.js",
+		"update": "pnpm update --interactive --latest"
+	},
+	"dependencies": {
+		"@discordjs/core": "^0.6.0",
+		"@discordjs/rest": "^1.7.1",
+		"dotenv": "^16.3.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.43.0",
+		"eslint-config-neon": "^0.1.47",
+		"prettier": "^2.8.8",
+		"tsup": "^7.1.0",
+		"typescript": "^5.1.6"
+	},
+	"packageManager": "pnpm@8.6.0"
+}

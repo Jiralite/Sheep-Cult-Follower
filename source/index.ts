@@ -14,11 +14,11 @@ setInterval(async () => {
 	const minutes = date.getUTCMinutes();
 	const seconds = date.getUTCSeconds();
 
-	if (hours === 20 && minutes === 0 && seconds === 0) {
+	if (hours === 22 && minutes === 0 && seconds === 0) {
 		await api.channels.createMessage(CHANNEL_ID, { content: `Good night, <@${USER_ID}>!` });
 	}
 
-	if (hours === 8 && minutes === 0 && seconds === 0) {
+	if (hours === 8 && minutes === 30 && seconds === 0) {
 		await api.channels.createMessage(CHANNEL_ID, { content: `Good morning, <@${USER_ID}>!` });
 	}
 }, 1_000);

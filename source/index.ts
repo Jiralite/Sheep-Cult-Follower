@@ -53,11 +53,11 @@ setInterval(async () => {
 	const minutes = date.getUTCMinutes();
 	const seconds = date.getUTCSeconds();
 
-	if (hours === 8 && minutes === 0 && seconds === 0) {
+	if (hours === 7 && minutes === 30 && seconds === 0) {
 		await sendFact(Time.Morning);
 	}
 
-	if (hours === 22 && minutes === 30 && seconds === 0) {
+	if (hours === 22 && minutes === 0 && seconds === 0) {
 		await sendFact(Time.Evening);
 	}
 }, 1_000);

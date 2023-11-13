@@ -7,20 +7,23 @@
 		"build": "tsup",
 		"format": "prettier --write . && eslint --fix .",
 		"lint": "prettier --check . && eslint .",
+		"dev": "tsx --require dotenv/config source/index.ts",
 		"start": "node --enable-source-maps --require dotenv/config dist/index.js",
 		"update": "pnpm update --interactive --latest"
 	},
 	"dependencies": {
-		"@discordjs/core": "^0.6.0",
-		"@discordjs/rest": "^1.7.1",
-		"dotenv": "^16.3.1"
+		"@discordjs/core": "^1.1.0",
+		"@discordjs/rest": "^2.1.0",
+		"dotenv": "^16.3.1",
+		"openai": "^4.17.4"
 	},
 	"devDependencies": {
-		"eslint": "^8.43.0",
-		"eslint-config-neon": "^0.1.47",
-		"prettier": "^2.8.8",
-		"tsup": "^7.1.0",
-		"typescript": "^5.1.6"
+		"eslint": "^8.53.0",
+		"eslint-config-neon": "^0.1.57",
+		"prettier": "^3.1.0",
+		"tsup": "^7.2.0",
+		"tsx": "^4.1.1",
+		"typescript": "^5.2.2"
 	},
-	"packageManager": "pnpm@8.6.0"
+	"packageManager": "pnpm@8.10.3"
 }

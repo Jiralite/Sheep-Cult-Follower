@@ -12,13 +12,7 @@ const rest = new REST().setToken(DISCORD_TOKEN);
 const api = new API(rest);
 const openAI = new OpenAI({ apiKey: OPENAI_API_KEY });
 const AI_DEFAULT_RESPONSE = `Good day, <@${USER_ID}>!` as const;
-
-const AI_FACTS = [
-	"Lie about something to me.",
-	"Tell me an interesting fact.",
-	"Tell me something completely random or made up.",
-] as const;
-
+const AI_FACTS = ["Lie about something to me.", "Tell me something completely random or made up."] as const;
 const AI_FACTS_LENGTH = AI_FACTS.length;
 
 const enum Time {

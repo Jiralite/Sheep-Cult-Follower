@@ -7,7 +7,6 @@
 		"test": "tsc --noEmit",
 		"format": "prettier --write . && eslint --fix .",
 		"lint": "prettier --check . && eslint .",
-		"dev": "tsx --require dotenv/config source/index.ts",
 		"start": "node --enable-source-maps --require dotenv/config distribution/index.js",
 		"update": "pnpm update --interactive --latest"
 	},
@@ -21,7 +20,6 @@
 		"eslint": "^8.53.0",
 		"eslint-config-neon": "^0.1.57",
 		"prettier": "^3.1.0",
-		"tsup": "^7.2.0",
 		"typescript": "^5.2.2"
 	},
 	"packageManager": "pnpm@8.10.3"

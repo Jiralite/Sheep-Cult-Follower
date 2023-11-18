@@ -7,8 +7,6 @@ import OpenAI from "openai";
 const { CHANNEL_ID, DISCORD_TOKEN, OPENAI_API_KEY, USER_ID } = process.env;
 if (!CHANNEL_ID || !DISCORD_TOKEN || !OPENAI_API_KEY || !USER_ID) throw new Error("Missing credentials.");
 const rest = new REST().setToken(DISCORD_TOKEN);
-
-// @ts-expect-error Unknown type error.
 const api = new API(rest);
 const openAI = new OpenAI({ apiKey: OPENAI_API_KEY });
 const AI_DEFAULT_RESPONSE = `Good day, <@${USER_ID}>!` as const;

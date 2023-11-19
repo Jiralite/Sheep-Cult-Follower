@@ -14,29 +14,27 @@ const enum Time {
 const AI_FACTS = ["Lie about something to me.", "Tell me something completely random or made up."] as const;
 const AI_FACTS_LENGTH = AI_FACTS.length;
 
-async function sendFact(openAI: OpenAI, time: Time, { WEBHOOK_URL, USER_ID }: Env) {
-	try {
-		const completion = await openAI.chat.completions.create({
-			messages: [
-				{ role: "user", content: `${AI_FACTS[Math.floor(Math.random() * AI_FACTS_LENGTH)]} Keep your response short.` },
-			],
-			model: "gpt-4-1106-preview",
-		});
+async function sendFact(time: Time, { WEBHOOK_URL, OPENAI_API_KEY, USER_ID }: Env) {
+	const openAI = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-		const response = completion.choices[0]!.message.content;
+	const completion = await openAI.chat.completions.create({
+		messages: [
+			{ role: "user", content: `${AI_FACTS[Math.floor(Math.random() * AI_FACTS_LENGTH)]} Keep your response short.` },
+		],
+		model: "gpt-4-1106-preview",
+	});
 
-		const content = response
-			? `${time === Time.Morning ? "Wakey wakey" : "Take this to bed"}, <@${USER_ID}>!\n>>> ${response}`
-			: `Good day, <@${USER_ID}>!`;
+	const response = completion.choices[0]!.message.content;
 
-		await fetch(WEBHOOK_URL, {
-			headers: { "Content-Type": "application/json" },
-			method: "POST",
-			body: JSON.stringify({ allowed_mentions: { parse: [] }, content }),
-		});
-	} catch (error) {
-		console.log(error);
-	}
+	const content = response
+		? `${time === Time.Morning ? "Wakey wakey" : "Take this to bed"}, <@${USER_ID}>!\n>>> ${response}`
+		: `Good day, <@${USER_ID}>!`;
+
+	await fetch(WEBHOOK_URL, {
+		headers: { "Content-Type": "application/json" },
+		method: "POST",
+		body: JSON.stringify({ allowed_mentions: { parse: [] }, content }),
+	});
 }
 
 export default {
@@ -57,6 +55,10 @@ export default {
 				return;
 		}
 
-		await sendFact(new OpenAI({ apiKey: env.OPENAI_API_KEY }), time, env);
+		try {
+			await sendFact(time, env);
+		} catch (error) {
+			console.error(error);
+		}
 	},
 } satisfies ExportedHandler<Env>;

@@ -3,24 +3,23 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "tsc",
-		"test": "tsc --noEmit",
+		"test": "tsc",
 		"format": "prettier --write . && eslint --fix .",
 		"lint": "prettier --check . && eslint .",
-		"start": "node --enable-source-maps --require dotenv/config distribution/index.js",
+		"dev": "wrangler dev --test-scheduled",
+		"deploy": "wrangler deploy",
 		"update": "pnpm update --interactive --latest"
 	},
 	"dependencies": {
-		"@discordjs/core": "^1.1.1",
-		"@discordjs/rest": "^2.2.0",
-		"dotenv": "^16.3.1",
 		"openai": "^4.19.0"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20231025.0",
 		"eslint": "^8.54.0",
 		"eslint-config-neon": "^0.1.57",
 		"prettier": "^3.1.0",
-		"typescript": "^5.2.2"
+		"typescript": "^5.2.2",
+		"wrangler": "^3.16.0"
 	},
 	"packageManager": "pnpm@8.10.3"
 }

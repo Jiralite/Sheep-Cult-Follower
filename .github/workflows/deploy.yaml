@@ -1,18 +1,15 @@
----
 name: Deploy Sheep Cult Follower codebase
 on:
   push:
     branches: main
-  workflow_dispatch:
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
   deploy:
     name: Deploy Sheep Cult Follower
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - run: flyctl deploy --remote-only
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          packageManager: npm

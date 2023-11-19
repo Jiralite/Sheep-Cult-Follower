@@ -1,24 +1,20 @@
-import process from "node:process";
-import { setInterval } from "node:timers";
-import { API } from "@discordjs/core";
-import { REST } from "@discordjs/rest";
 import OpenAI from "openai";
 
-const { CHANNEL_ID, DISCORD_TOKEN, OPENAI_API_KEY, USER_ID } = process.env;
-if (!CHANNEL_ID || !DISCORD_TOKEN || !OPENAI_API_KEY || !USER_ID) throw new Error("Missing credentials.");
-const rest = new REST().setToken(DISCORD_TOKEN);
-const api = new API(rest);
-const openAI = new OpenAI({ apiKey: OPENAI_API_KEY });
-const AI_DEFAULT_RESPONSE = `Good day, <@${USER_ID}>!` as const;
-const AI_FACTS = ["Lie about something to me.", "Tell me something completely random or made up."] as const;
-const AI_FACTS_LENGTH = AI_FACTS.length;
+interface Env {
+	WEBHOOK_URL: string;
+	OPENAI_API_KEY: string;
+	USER_ID: string;
+}
 
 const enum Time {
 	Morning,
 	Evening,
 }
 
-async function sendFact(time: Time) {
+const AI_FACTS = ["Lie about something to me.", "Tell me something completely random or made up."] as const;
+const AI_FACTS_LENGTH = AI_FACTS.length;
+
+async function sendFact(openAI: OpenAI, time: Time, { WEBHOOK_URL, USER_ID }: Env) {
 	try {
 		const completion = await openAI.chat.completions.create({
 			messages: [
@@ -31,25 +27,36 @@ async function sendFact(time: Time) {
 
 		const content = response
 			? `${time === Time.Morning ? "Wakey wakey" : "Take this to bed"}, <@${USER_ID}>!\n>>> ${response}`
-			: AI_DEFAULT_RESPONSE;
+			: `Good day, <@${USER_ID}>!`;
 
-		await api.channels.createMessage(CHANNEL_ID!, { allowed_mentions: { parse: [] }, content });
+		await fetch(WEBHOOK_URL, {
+			headers: { "Content-Type": "application/json" },
+			method: "POST",
+			body: JSON.stringify({ allowed_mentions: { parse: [] }, content }),
+		});
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-setInterval(async () => {
-	const date = new Date();
-	const hours = date.getUTCHours();
-	const minutes = date.getUTCMinutes();
-	const seconds = date.getUTCSeconds();
+export default {
+	async fetch() {
+		return new Response("", { status: 444, statusText: "The sheep was not interested in your HTTP request." });
+	},
+	async scheduled(_, env) {
+		let time;
 
-	if (hours === 7 && minutes === 30 && seconds === 0) {
-		await sendFact(Time.Morning);
-	}
+		switch (new Date().getUTCHours()) {
+			case 7:
+				time = Time.Morning;
+				break;
+			case 22:
+				time = Time.Evening;
+				break;
+			default:
+				return;
+		}
 
-	if (hours === 22 && minutes === 0 && seconds === 0) {
-		await sendFact(Time.Evening);
-	}
-}, 1_000);
+		await sendFact(new OpenAI({ apiKey: env.OPENAI_API_KEY }), time, env);
+	},
+} satisfies ExportedHandler<Env>;

@@ -1,0 +1,8 @@
+name = "sheep-cult-follower"
+main = "source/index.ts"
+compatibility_date = "2023-11-19"
+usage_model = "bundled"
+send_metrics = false
+
+[triggers]
+crons = ["0 7,22 * * *"]

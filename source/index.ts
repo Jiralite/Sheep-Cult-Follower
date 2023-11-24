@@ -1,5 +1,3 @@
-import OpenAI from "openai";
-
 interface Env {
 	WEBHOOK_URL: string;
 	OPENAI_API_KEY: string;
@@ -11,20 +9,26 @@ const enum Time {
 	Evening,
 }
 
+type ChatCompletion = { choices: { message: { content: string } }[] };
 const AI_FACTS = ["Lie about something to me.", "Tell me something completely random or made up."] as const;
 const AI_FACTS_LENGTH = AI_FACTS.length;
 
 async function sendFact(time: Time, { WEBHOOK_URL, OPENAI_API_KEY, USER_ID }: Env) {
-	const openAI = new OpenAI({ apiKey: OPENAI_API_KEY });
-
-	const completion = await openAI.chat.completions.create({
-		messages: [
-			{ role: "user", content: `${AI_FACTS[Math.floor(Math.random() * AI_FACTS_LENGTH)]} Keep your response short.` },
-		],
-		model: "gpt-4-1106-preview",
+	const completion = await fetch("https://api.openai.com/v1/chat/completions", {
+		headers: {
+			Authorization: `Bearer ${OPENAI_API_KEY}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			messages: [
+				{ role: "user", content: `${AI_FACTS[Math.floor(Math.random() * AI_FACTS_LENGTH)]} Keep your response short.` },
+			],
+			model: "gpt-4-1106-preview",
+		}),
 	});
 
-	const response = completion.choices[0]!.message.content;
+	const body = (await completion.json()) as ChatCompletion;
+	const response = body.choices[0]!.message.content;
 
 	const content = response
 		? `${time === Time.Morning ? "Wakey wakey" : "Take this to bed"}, <@${USER_ID}>!\n>>> ${response}`

@@ -10,9 +10,6 @@
 		"deploy": "wrangler deploy",
 		"update": "pnpm update --interactive --latest"
 	},
-	"dependencies": {
-		"openai": "^4.19.0"
-	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20231025.0",
 		"eslint": "^8.54.0",

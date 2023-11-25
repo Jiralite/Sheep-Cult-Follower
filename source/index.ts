@@ -45,10 +45,11 @@ export default {
 	async fetch() {
 		return new Response("", { status: 444, statusText: "The sheep was not interested in your HTTP request." });
 	},
-	async scheduled(_, env) {
+	async scheduled({ scheduledTime }, env) {
+		const date = new Date(scheduledTime);
 		let time;
 
-		switch (new Date().getUTCHours()) {
+		switch (date.getUTCHours()) {
 			case 7:
 				time = Time.Morning;
 				break;
@@ -56,7 +57,7 @@ export default {
 				time = Time.Evening;
 				break;
 			default:
-				return;
+				throw new Error(`Invalid scheduled time: ${date}`);
 		}
 
 		try {

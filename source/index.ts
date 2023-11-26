@@ -15,6 +15,7 @@ const AI_FACTS_LENGTH = AI_FACTS.length;
 
 async function sendFact(time: Time, { WEBHOOK_URL, OPENAI_API_KEY, USER_ID }: Env) {
 	const completion = await fetch("https://api.openai.com/v1/chat/completions", {
+		method: "POST",
 		headers: {
 			Authorization: `Bearer ${OPENAI_API_KEY}`,
 			"Content-Type": "application/json",

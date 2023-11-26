@@ -38,7 +38,7 @@ async function sendFact(time: Time, { WEBHOOK_URL, OPENAI_API_KEY, USER_ID }: En
 	await fetch(WEBHOOK_URL, {
 		headers: { "Content-Type": "application/json" },
 		method: "POST",
-		body: JSON.stringify({ allowed_mentions: { parse: [] }, content }),
+		body: JSON.stringify({ allowed_mentions: { parse: ["users"] }, content }),
 	});
 }
 

@@ -2,6 +2,7 @@ name = "sheep-cult-follower"
 main = "source/index.ts"
 compatibility_date = "2023-11-19"
 usage_model = "bundled"
+workers_dev = false
 send_metrics = false
 
 [triggers]

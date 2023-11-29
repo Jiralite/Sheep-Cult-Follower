@@ -43,9 +43,6 @@ async function sendFact(time: Time, { WEBHOOK_URL, OPENAI_API_KEY, USER_ID }: En
 }
 
 export default {
-	async fetch() {
-		return new Response("", { status: 444, statusText: "The sheep was not interested in your HTTP request." });
-	},
 	async scheduled({ scheduledTime }, env) {
 		const date = new Date(scheduledTime);
 		let time;
